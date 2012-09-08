@@ -1,7 +1,6 @@
 Name:                stackist
 Version:             0.1
 Description:         Interpreter and Compiler for the stackist programming language
-License:             Apache 2.0
 License-file:        LICENSE
 copyright:           (c) 2012 Steve Jenson
 Author:              Steve Jenson
