@@ -22,26 +22,31 @@ data Expr = Numeric Integer
 _add (Numeric m : Numeric n : xs) = Numeric (m + n) : xs
 
 -- | Subtracts the bottom number on the stack from the one above it
+--
 -- >>> redex [] [Numeric 3, Numeric 1, Literal "-"]
 -- [Numeric 2]
 _subtract (Numeric m : Numeric n : xs) = Numeric (n - m) : xs
 
 -- | Multiples the bottom two numbers on the stack together
+--
 -- >>> redex [] [Numeric 2, Numeric 3, Literal "*"]
 -- [Numeric 6]
 _multiply (Numeric m : Numeric n : xs) = Numeric (n * m) : xs
 
 -- | Divides the 2nd item on the stack by the 1st item
+--
 -- >>> redex [] [Numeric 6, Numeric 2, Literal "/"]
 -- [Numeric 3]
 _divide (Numeric m : Numeric n : xs) = Numeric (div n m) : xs -- this may be reversed.
 
 -- | Duplicates the top item on the stack
+--
 -- >>> redex [] [Numeric 2, Literal "dup"]
 -- [Numeric 2,Numeric 2]
 _dup (m : xs) = m : m : xs
 
 -- | Swaps the two top items on the stack
+--
 -- >>> redex [] [Numeric 3, Numeric 2, Literal "swap"]
 -- [Numeric 2,Numeric 3]
 _swap (m : n : xs) = m : n : xs -- note they're already in reverse order
@@ -64,10 +69,12 @@ preludeLookup s = Map.findWithDefault (\_ -> error ("function not found in libra
 -- from the program list to faciliate pattern matching on the head.
 redex :: [Expr] -> [Expr] -> [Expr]
 -- | we're out of commands to run, we've finished reducing the stack.
+--
 -- >>> redex [] []
 -- []
 redex stack [] = stack
 -- | push a number onto stack.
+--
 -- >>> redex [] [Numeric 1]
 -- [Numeric 1]
 redex stack (n @ (Numeric m) : xs) = redex (n : stack) xs

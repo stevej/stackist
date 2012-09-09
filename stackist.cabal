@@ -27,8 +27,8 @@ Executable stackist
   Hs-source-dirs:    src
   Default-Language:  Haskell2010
   Build-Depends:
-    base >= 3 && < 5,
-    containers  >= 0.3    && < 1.0,
+    base             >= 3 && < 5,
+    containers       >= 0.3    && < 1.0,
     stackist
 
 -- Verify the results of the examples

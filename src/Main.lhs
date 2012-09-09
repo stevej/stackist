@@ -1,7 +1,4 @@
-> module Stackist
->    ( module Stackist.Interpreter1
->    ) where
+> module Main (main) where
 
-> import Stackist.Interpreter1
-
-main = defaultMain
+> main :: IO ()
+> main = putStrLn "Hello, World!"
