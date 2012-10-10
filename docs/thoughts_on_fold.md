@@ -22,10 +22,12 @@ quotation, rather it's elements are peeled off the head (the left
 side) and put on the stack. the results of concat plus the next
 element are what's on top of the stack for the quotation to work with.
 
-Back to our rewriting:
+Back to our rewriting
 
 `"b" "a" concat`
+
 `"ab" "c" concat`
+
 `"abc" "d" concat`
 
 the final result left on the stack is `"abcd"`
