@@ -81,18 +81,17 @@ _nullary (Quote q : xs) = (redex [] q) ++ xs
 -- >>> redex [] [JString "a", JString "b", Literal "concat"]
 -- [JString "ab"]
 _concat (JString s : JString t : xs) = JString (t ++ s) : xs
+_concat (Quote a : Quote b : xs) = Quote (b ++ a) : xs
 _concat xs = interpError "concat" xs
 
 -- | fold : A V0 [P] -> V Starting with value V0, sequentially pushes
 -- members of aggregate A and combines with binary operator P to produce value V.
 -- fold = swapd step
 -- (SJ: I assumed this would be a foldRight but is left)
--- List("b", "c", "d").foldLeft("a")((a,b) => a + b)
--- res1: java.lang.String = abcd
+-- foldl (\a b -> a ++ b) "a" ["b", "c", "d"] => "abcd"
 --
--- >> redex [] [Quote [JString "b", JString "c", JString "d"], JString "a", Quote [Literal "concat"], Literal "fold"]
+-- >>> redex [] [Quote [JString "b", JString "c", JString "d"], JString "a", Quote [Literal "concat"], Literal "fold"]
 -- [JString "abcd"]
--- this is broken
 _fold xs = redex xs [Literal "swapd", Literal "step"]
 
 
@@ -100,7 +99,7 @@ _fold xs = redex xs [Literal "swapd", Literal "step"]
 --
 -- >>> redex [] [JString "a", JString "b", JString "c", Literal "swapd"]
 -- [JString "c",JString "a",JString "b"]
-_swapd (z : y : x : xs) = z : x : y : xs
+_swapd (c : b : a : xs) = c : a : b : xs
 
 
 -- | step : A [P] -> ...
@@ -108,13 +107,15 @@ _swapd (z : y : x : xs) = z : x : y : xs
 -- P for each member of A.
 --
 -- >>> redex [] [Quote [Numeric 1, Numeric 2], Quote [Numeric 2, Literal "*"], Literal "step"]
--- [Numeric 2,Numeric 4]
-_step (Quote f : Quote qs : xs) = (concat $ map f' qs) ++ xs
-                              where f' quote = redex [quote] f
-_step xs = error ("did not expect" ++ (show xs))
+-- [Numeric 4,Numeric 2]
+--
+-- >>> redex [Quote [Literal "concat"],Quote [JString "b",JString "c",JString "d"],JString "a"] [Literal "step"]
+-- [JString "abcd"]
+step' f [] stack = stack
+step' f (x:xs) stack = step' f xs (redex (x : stack) f)
 
-
--- redex :: [Expr] -> [Expr] -> [Expr]
+_step (Quote f : Quote qs : xs) = step' f qs xs
+_step xs = error ("step did not expect" ++ (show xs))
 
 
 preludeMap :: Map.Map String ([Expr] -> [Expr])
