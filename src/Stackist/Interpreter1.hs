@@ -72,9 +72,9 @@ _dip (Quote q : m : xs) = r ++ (m : xs)
 -- | [P] -> R Executes P, which leaves R on top of the stack. No matter
 -- how many parameters this consumes, none are removed from the stack.
 --
--- >>> redex [] [Quote [Numeric 1, Numeric 2, Literal "+"], Literal "nullary"]
--- [Numeric 3]
-_nullary (Quote q : xs) = (redex [] q) ++ xs
+-- >>> redex [] [Numeric 2, Quote [Numeric 1, Literal "+"], Literal "nullary"]
+-- [Numeric 3,Numeric 2]
+_nullary (Quote q : xs) = (redex xs q) ++ xs
 
 -- | S T -> U Sequence U is the concatenation of sequences S and T.
 --
@@ -96,6 +96,7 @@ _fold xs = redex xs [Literal "swapd", Literal "step"]
 
 
 -- | swapd : X Y Z -> Y X Z
+-- FIXME: I don't know if I'm following this.
 --
 -- >>> redex [] [JString "a", JString "b", JString "c", Literal "swapd"]
 -- [JString "c",JString "a",JString "b"]
