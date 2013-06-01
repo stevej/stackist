@@ -23,6 +23,7 @@ What I'm working on next:
 * I/O
 * stack operators (newstack, clear, stack, cons, swons, uncons, unswons)
 * better interpretor error handling
+* a parser for the concrete syntax
 
 Future directions:
 * Documenting a type system for Joy
