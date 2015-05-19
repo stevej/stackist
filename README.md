@@ -12,6 +12,7 @@ What I have today:
 * A basic stdandard library
 * Quotations
 * Most of the base combinators
+* concrete syntax finished and available via main.
 
 
 What I'm working on next:
@@ -22,8 +23,6 @@ What I'm working on next:
 * Named functions
 * I/O
 * stack operators (newstack, clear, stack, cons, swons, uncons, unswons)
-* better interpretor error handling
-* a parser for the concrete syntax
 
 Future directions:
 * Documenting a type system for Joy
